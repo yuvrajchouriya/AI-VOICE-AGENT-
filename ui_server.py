@@ -269,6 +269,17 @@ async def api_call_single(request: Request):
             api_secret=config.get("livekit_api_secret") or os.environ.get("LIVEKIT_API_SECRET",""),
         )
         room_name = f"call-{phone.replace('+','')}-{random.randint(1000,9999)}"
+        sip_trunk_id = config.get("sip_trunk_id") or os.environ.get("SIP_TRUNK_ID", "")
+        if sip_trunk_id:
+            await lk.sip.create_sip_participant(
+                lkapi.CreateSIPParticipantRequest(
+                    sip_trunk_id=sip_trunk_id,
+                    sip_call_to=phone,
+                    room_name=room_name,
+                )
+            )
+            logger.info(f"SIP Participant created for {phone} using trunk {sip_trunk_id}")
+        
         dispatch = await lk.agent_dispatch.create_dispatch(
             lkapi.CreateAgentDispatchRequest(
                 agent_name="outbound-caller",
@@ -302,6 +313,16 @@ async def api_call_bulk(request: Request):
         try:
             lk = lkapi.LiveKitAPI(url=lk_url, api_key=lk_key, api_secret=lk_secret)
             room_name = f"call-{phone.replace('+','')}-{random.randint(1000,9999)}"
+            sip_trunk_id = cfg.get("sip_trunk_id") or os.environ.get("SIP_TRUNK_ID", "")
+            if sip_trunk_id:
+                await lk.sip.create_sip_participant(
+                    lkapi.CreateSIPParticipantRequest(
+                        sip_trunk_id=sip_trunk_id,
+                        sip_call_to=phone,
+                        room_name=room_name,
+                    )
+                )
+                
             dispatch = await lk.agent_dispatch.create_dispatch(
                 lkapi.CreateAgentDispatchRequest(
                     agent_name="outbound-caller",
