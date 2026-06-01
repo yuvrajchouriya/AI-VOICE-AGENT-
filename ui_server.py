@@ -1296,7 +1296,7 @@ function renderLangGrid() {{
       border:2px solid ${{id===currentLangPreset ? p.color : 'var(--border)'}};
       border-radius:12px;padding:18px;cursor:pointer;transition:all 0.15s;
       ${{id===currentLangPreset ? 'box-shadow:0 0 16px rgba(108,99,255,0.2)' : ''}}
-    " onmouseover="this.style.borderColor='${{p.color}}'" onmouseout="this.style.borderColor='${{id===currentLangPreset?p.color:'var(--border)}}'">
+    " onmouseover="this.style.borderColor='${{p.color}}'" onmouseout="this.style.borderColor='${{id===currentLangPreset?p.color:\'var(--border)\'}}'">
       <div style="font-size:28px;margin-bottom:8px;">${{p.flag}}</div>
       <div style="font-weight:700;font-size:14px;color:${{id===currentLangPreset?p.color:'var(--text)'}}">${{p.label}}</div>
       <div style="font-size:11px;color:var(--muted);margin-top:3px;">${{p.sub}}</div>
